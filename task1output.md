@@ -135,7 +135,7 @@
 
 2. ##### 程序运行前参数调整
 
-   1. 更新程序目录下的`apps.py`文件，以我为例
+   1. 更新**程序目录**下的`apps.py`文件，以我为例
 
       - 文件原始内容
 
@@ -159,12 +159,114 @@
         
         ```
 
-   2. 设置程序目录下`setting.py`文件
+   2. 设置工程目录下**子同名目录**（`MyFirstProject`）的`setting.py`文件
 
-      - 
+      - 文件内容某部分修改前
 
-   3. 
+        ```python
+        INSTALLED_APPS = [
+            "django.contrib.admin",
+            "django.contrib.auth",
+            "django.contrib.contenttypes",
+            "django.contrib.sessions",
+            "django.contrib.messages",
+            "django.contrib.staticfiles",
+        ]
+        ```
 
-3. 启动程序
+      - 修改后
 
-4. 然后呢
+        ```python
+        INSTALLED_APPS = [
+            "django.contrib.admin",
+            "django.contrib.auth",
+            "django.contrib.contenttypes",
+            "django.contrib.sessions",
+            "django.contrib.messages",
+            "django.contrib.staticfiles",
+            "MyFirstApp.tests",  # 新增
+            "rest_framework",  # 新增
+            "django_filters",  # 新增
+            "drf_spectacular",  # 新增
+        ]
+        ```
+
+      其中【MyFirstApp.tests】这一个是将程序目录下的`tests`是函数包含进来，这个参数的格式为`<程序目录名>.<测试函数名>`。
+
+3. ##### 数据库迁移
+
+   在**工程目录**（第一级MyFirstProject）下，运行如下命令完成数据库迁移
+
+   ```cmd
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+   ⚠️运行上述命令第一行可能会遇到错误：
+
+   ```cmd
+   (erp_venv) PS D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject> python manage.py makemigrations
+   Traceback (most recent call last):
+     File "D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject\manage.py", line 22, in <module>
+       main()
+     File "D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject\manage.py", line 18, in main
+       execute_from_command_line(sys.argv)
+     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\core\management\__init__.py", line 442, in execute_from_command_line
+       utility.execute()
+     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\core\management\__init__.py", line 416, in execute
+       django.setup()
+     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\__init__.py", line 24, in setup
+       apps.populate(settings.INSTALLED_APPS)
+     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\apps\registry.py", line 91, in populate
+       app_config = AppConfig.create(entry)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\apps\config.py", line 193, in create
+       import_module(entry)
+     File "D:\Anaconda\envs\erp_venv\Lib\importlib\__init__.py", line 126, in import_module
+       return _bootstrap._gcd_import(name[level:], package, level)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+     File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+     File "<frozen importlib._bootstrap>", line 1126, in _find_and_load_unlocked
+     File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+     File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+     File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+     File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+   ModuleNotFoundError: No module named 'MyFirstProjects'
+   ```
+
+   最终错误源便可发现是第二部分参数调整时，`setting`文件里添加的下面这一行不对
+
+   ```python
+   "MyFirstApp.tests",  # 新增
+   ```
+
+   记住一定要写成`<程序目录名>.<测试函数名>`的形式
+
+4. ##### 启动程序
+
+   工程目录下运行以下命令，开始运行程序
+
+   ```cmd
+   python manage.py runserver
+   ```
+
+   然后会得到一个和如下内容相差无几的控制台输出：
+
+   ```cmd
+   (erp_venv) PS D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject> python manage.py runserver
+   Watching for file changes with StatReloader
+   Performing system checks...
+   
+   System check identified no issues (0 silenced).
+   May 13, 2024 - 22:50:59
+   Django version 5.0.6, using settings 'MyFirstProject.settings'
+   Starting development server at http://127.0.0.1:8000/
+   Quit the server with CTRL-BREAK.
+   ```
+
+   接着你就可以使用`http://127.0.0.1:8000/`粘贴到浏览器的地址栏回车访问你的网站了，这个地址不一定和我相同，得看系统端口占用情况，因此不要直接拷贝我的地址，而是拷贝你的控制台输出中给的地址。
+
+   以下是访问样例：
+
+   ![image-20240513225427398](assets/image-20240513225427398.png)
