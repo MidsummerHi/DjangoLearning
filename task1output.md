@@ -74,7 +74,7 @@
      django-admin startproject MyFirstProject
      ```
 
-     以上命令，前两个字符串都属于固有命令字符串，该命令用于创建一个程序目录；`MyFirstProject`为要创建的程序工程目录名字，读者可自定义；
+     以上命令，前两个字符串都属于固有命令字符串，该命令用于创建一个**工程目录**；`MyFirstProject`为要创建的工程目录名字，读者可自定义；
 
      创建完后，应该会生成一个名为MyFirstProject的文件夹，其内容如下目录树所示：
 
@@ -97,7 +97,7 @@
 
    - ##### 创建程序
 
-     运行下面命令，进入程序工程目录
+     运行下面命令，进入**工程目录**
 
      ```cmd
      cd MyFirstProject
@@ -145,26 +145,24 @@
         class MyfirstappConfig(AppConfig):
             default_auto_field = "django.db.models.BigAutoField"
             name = "MyFirstApp"
-        
         ```
-
-      - 修改后
-
-        ```cmd
+        
+   - 修改后
+      
+     ```cmd
         from django.apps import AppConfig
         
         class MyfirstappConfig(AppConfig):
             default_auto_field = "django.db.models.BigAutoField"
-            name = "MyFirstProject.MyFirstApp"  # 修改为"工程名.程序名"的形式
-        
+            name = "MyFirstProject.MyFirstApp"  # 修改为"工程目录名.程序目录名"的形式
         ```
-
-   2. 设置工程目录下**子同名目录**（`MyFirstProject`）的`setting.py`文件
+      
+   2. 设置**工程目录**下**子同名目录**（`MyFirstProject`）的`settings.py`文件
 
       - 文件内容某部分修改前
 
         ```python
-        INSTALLED_APPS = [
+     INSTALLED_APPS = [
             "django.contrib.admin",
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -173,25 +171,25 @@
             "django.contrib.staticfiles",
         ]
         ```
-
+   
       - 修改后
 
         ```python
-        INSTALLED_APPS = [
+     INSTALLED_APPS = [
             "django.contrib.admin",
             "django.contrib.auth",
             "django.contrib.contenttypes",
             "django.contrib.sessions",
             "django.contrib.messages",
             "django.contrib.staticfiles",
-            "MyFirstApp.tests",  # 新增
+            "MyFirstApp.tests",  # 新增，写成“主程序名.测试程序名”
             "rest_framework",  # 新增
             "django_filters",  # 新增
             "drf_spectacular",  # 新增
         ]
         ```
-
-      其中【MyFirstApp.tests】这一个是将程序目录下的`tests`是函数包含进来，这个参数的格式为`<程序目录名>.<测试函数名>`。
+   
+      其中【MyFirstApp.tests】这一个是将程序目录下的`tests`是程序包含进来，这个参数的格式为`<主程序名>.<测试程序名>`。
 
 3. ##### 数据库迁移
 
@@ -202,10 +200,24 @@
    python manage.py migrate
    ```
 
-   ⚠️运行上述命令第一行可能会遇到错误：
+   如果之前的步骤读者都跟着我做了，或者理解了我那些步骤的含义，上面的数据库迁移命令不会报错；如果某个地方没理解或者遇到细节问题（比如大小写错误），可能会导致报错。
+
+   我举一个没理解写法的作用导致错误的例子，假设我把
+
+   ```python
+   "MyFirstApp.tests",  # 新增，写成“主程序名.测试程序名”
+   ```
+
+   改成
+
+   ```python
+   "MyFirstApp.data",  # 新增，写成“主程序名.测试程序名”
+   ```
+
+   ⚠️运行上述命令第一行会得到一个标准的模块找不到错误：
 
    ```cmd
-   (erp_venv) PS D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject> python manage.py makemigrations
+   (erp_venv) PS D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject> python .\manage.py makemigrations
    Traceback (most recent call last):
      File "D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject\manage.py", line 22, in <module>
        main()
@@ -227,21 +239,17 @@
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
      File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
-     File "<frozen importlib._bootstrap>", line 1126, in _find_and_load_unlocked
-     File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-     File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
-     File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
      File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
-   ModuleNotFoundError: No module named 'MyFirstProjects'
+   ModuleNotFoundError: No module named 'MyFirstApp.data'
    ```
 
    最终错误源便可发现是第二部分参数调整时，`setting`文件里添加的下面这一行不对
 
    ```python
-   "MyFirstApp.tests",  # 新增
+   "MyFirstApp.data",  # 新增
    ```
 
-   记住一定要写成`<程序目录名>.<测试函数名>`的形式
+   因为我们的测试程序叫`tests`，而不是`data`，记住😡一定要写成`<主程序名>.<测试程序名>`的形式。
 
 4. ##### 启动程序
 
