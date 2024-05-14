@@ -147,9 +147,9 @@
             name = "MyFirstApp"
         ```
         
-   - 修改后
+      - 修改后
       
-     ```cmd
+        ```cmd
         from django.apps import AppConfig
         
         class MyfirstappConfig(AppConfig):
@@ -162,7 +162,7 @@
       - 文件内容某部分修改前
 
         ```python
-     INSTALLED_APPS = [
+        INSTALLED_APPS = [
             "django.contrib.admin",
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -170,12 +170,13 @@
             "django.contrib.messages",
             "django.contrib.staticfiles",
         ]
+        
         ```
-   
+      
       - 修改后
-
+      
         ```python
-     INSTALLED_APPS = [
+        INSTALLED_APPS = [
             "django.contrib.admin",
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -188,9 +189,9 @@
             "drf_spectacular",  # 新增
         ]
         ```
-   
+      
       其中【MyFirstApp.tests】这一个是将程序目录下的`tests`是程序包含进来，这个参数的格式为`<主程序名>.<测试程序名>`。
-
+   
 3. ##### 数据库迁移
 
    在**工程目录**（第一级MyFirstProject）下，运行如下命令完成数据库迁移
