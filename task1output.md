@@ -146,23 +146,23 @@
             default_auto_field = "django.db.models.BigAutoField"
             name = "MyFirstApp"
         ```
-        
-   - 修改后
-      
-     ```cmd
+
+      - 修改后
+
+        ```python
         from django.apps import AppConfig
         
         class MyfirstappConfig(AppConfig):
             default_auto_field = "django.db.models.BigAutoField"
             name = "MyFirstProject.MyFirstApp"  # 修改为"工程目录名.程序目录名"的形
         ```
-      
+
    2. 设置**工程目录**下**子同名目录**（`MyFirstProject`）的`settings.py`文件
 
       - 文件内容某部分修改前
 
         ```python
-     INSTALLED_APPS = [
+        INSTALLED_APPS = [
             "django.contrib.admin",
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -171,11 +171,11 @@
             "django.contrib.staticfiles",
         ]
         ```
-   
+
       - 修改后
 
         ```python
-     INSTALLED_APPS = [
+        INSTALLED_APPS = [
             "django.contrib.admin",
             "django.contrib.auth",
             "django.contrib.contenttypes",
@@ -188,7 +188,7 @@
             "drf_spectacular",  # 新增
         ]
         ```
-   
+
       其中【MyFirstApp.tests】这一个是将程序目录下的`tests`是程序包含进来，这个参数的格式为`<主程序名>.<测试程序名>`。
 
 3. ##### 数据库迁移
