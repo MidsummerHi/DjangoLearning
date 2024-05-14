@@ -154,7 +154,7 @@
         
         class MyfirstappConfig(AppConfig):
             default_auto_field = "django.db.models.BigAutoField"
-            name = "MyFirstProject.MyFirstApp"  # 修改为"工程目录名.程序目录名"的形式
+            name = "MyFirstProject.MyFirstApp"  # 修改为"工程目录名.程序目录名"的形
         ```
       
    2. 设置**工程目录**下**子同名目录**（`MyFirstProject`）的`settings.py`文件
