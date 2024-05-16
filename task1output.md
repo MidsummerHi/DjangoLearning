@@ -137,29 +137,7 @@
 
 2. ##### 程序运行前参数调整
 
-   1. 更新**程序目录**下的`apps.py`文件，以我为例
-
-      - 文件原始内容
-
-        ```python
-        from django.apps import AppConfig
-        
-        class MyfirstappConfig(AppConfig):
-            default_auto_field = "django.db.models.BigAutoField"
-            name = "MyFirstApp"
-        ```
-
-      - 修改后
-
-        ```python
-        from django.apps import AppConfig
-        
-        class MyfirstappConfig(AppConfig):
-            default_auto_field = "django.db.models.BigAutoField"
-            name = "MyFirstProject.MyFirstApp"  # 修改为"工程目录名.程序目录名"的形
-        ```
-
-   2. 设置**工程目录**下**子同名目录**（`MyFirstProject`）的`settings.py`文件
+   1. 设置**工程目录**下**子同名目录**（`MyFirstProject`）的`settings.py`文件
 
       - 文件内容某部分修改前
 
@@ -173,9 +151,9 @@
             "django.contrib.staticfiles",
         ]
         ```
-
+   
       - 修改后
-
+   
         ```python
         INSTALLED_APPS = [
             "django.contrib.admin",
@@ -184,15 +162,15 @@
             "django.contrib.sessions",
             "django.contrib.messages",
             "django.contrib.staticfiles",
-            "MyFirstApp.tests",  # 新增，写成“主程序名.测试程序名”
+            "MyFirstApp",  # 新增，写“程序目录的名字，即程序名字”
             "rest_framework",  # 新增
             "django_filters",  # 新增
             "drf_spectacular",  # 新增
         ]
         ```
-
-      其中【MyFirstApp.tests】这一个是将程序目录下的`tests`是程序包含进来，这个参数的格式为`<主程序名>.<测试程序名>`。
-
+   
+      其中【MyFirstApp】这一个是将工程目录下的`MyFirstApp`是程序包含进来，这个参数的格式为`<程序名>`。
+   
 3. ##### 数据库迁移
 
    在**工程目录**（第一级MyFirstProject）下，运行如下命令完成数据库迁移
@@ -207,52 +185,30 @@
    我举一个没理解写法的作用导致错误的例子，假设我把
 
    ```python
-   "MyFirstApp.tests",  # 新增，写成“主程序名.测试程序名”
+   "MyFirstApp",  # 新增，写“程序目录的名字，即程序名字”
    ```
 
    改成
 
    ```python
-   "MyFirstApp.data",  # 新增，写成“主程序名.测试程序名”
+   "MyFirstProject",  # 新增，写“程序目录的名字，即程序名字”
    ```
 
-   ⚠️运行上述命令第一行会得到一个标准的模块找不到错误：
+   ⚠️运行上述命令第一行会得到一个标准错误，提示程序未安装：
 
    ```cmd
-   (erp_venv) PS D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject> python .\manage.py makemigrations
-   Traceback (most recent call last):
-     File "D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject\manage.py", line 22, in <module>
-       main()
-     File "D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject\manage.py", line 18, in main
-       execute_from_command_line(sys.argv)
-     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\core\management\__init__.py", line 442, in execute_from_command_line
-       utility.execute()
-     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\core\management\__init__.py", line 416, in execute
-       django.setup()
-     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\__init__.py", line 24, in setup
-       apps.populate(settings.INSTALLED_APPS)
-     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\apps\registry.py", line 91, in populate
-       app_config = AppConfig.create(entry)
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-     File "D:\Anaconda\envs\erp_venv\Lib\site-packages\django\apps\config.py", line 193, in create
-       import_module(entry)
-     File "D:\Anaconda\envs\erp_venv\Lib\importlib\__init__.py", line 126, in import_module
-       return _bootstrap._gcd_import(name[level:], package, level)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
-     File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
-     File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
-   ModuleNotFoundError: No module named 'MyFirstApp.data'
+   (erp_venv) D:\Software\HUNNU CloudDisk\Cache\彭彩平_1\我的资料库\开源助教\Django\MyFirstProject>python manage.py makemigrations MyFirstApp
+   No installed app with label 'MyFirstApp'.
    ```
-
+   
    最终错误源便可发现是第二部分参数调整时，`setting`文件里添加的下面这一行不对
-
+   
    ```python
-   "MyFirstApp.data",  # 新增
+   "MyFirstProject",  # 新增，写“程序目录的名字，即程序名字”
    ```
-
-   因为我们的测试程序叫`tests`，而不是`data`，记住😡一定要写成`<主程序名>.<测试程序名>`的形式。
-
+   
+   因为我们的程序叫`MyFirstApp`，而不是`MyFirstProject`，后者是工程名，一个工程可以包含若干个程序。记住😡一定要写成``<程序名>``。
+   
 4. ##### 启动程序
 
    工程目录下运行以下命令，开始运行程序
