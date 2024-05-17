@@ -260,3 +260,86 @@ from MyFirstApp.models import *
 >>> Goods.objects.values()
 <QuerySet [{'id': 2, 'number': '1', 'name': 'pear', 'barcode': '33132', 'category_id': None, 'spec': 'formal', 'purchase_price': 4.0, 'retail_price': 6.0, 'remark': '水果'}, '...(remaining elements truncated)...']>
 ```
+
+### 3.2 APIView
+
+#### 3.2.1 什么是APIView
+
+APIview 是 Django REST Framework 提供的一个视图类。它和 Django 中的 view 类有些相似，但是又有一些不同之处。APIview 可以处理基于 HTTP 协议的请求，并返回基于内容协商的响应，它旨在提供一个易于使用且灵活的方式来构建 API 视图。
+
+#### 3.2.2 APIView测试
+
+进入**程序目录**下，修改`views.py`文件，粘贴以下内容：
+
+```python
+# 面向对象编程
+from django.shortcuts import render
+from rest_framework.decorators import api_view
+from .models import *
+from rest_framework.response import Response
+from rest_framework.views import APIView
+#### APIView
+ class GetGoods(APIView):
+     def get(self, request):
+         data = Goods.objects.all()
+         serializer = GoodsSerializer(instance=data, many=True)
+         print(serializer.data)
+         return Response(serializer.data)
+
+     def post(self, request):
+         # 从请求数据中提取字段
+         request_data = {
+             "category": request.data.get("Goodscategory"),
+             "number": request.data.get("number"),
+             "name": request.data.get("name"),
+             "barcode": request.data.get("barcode"),
+             "spec": request.data.get("spec"),
+             "shelf_life_days": request.data.get("shelf_life_days"),
+             "purchase_price": request.data.get("purchase_price"),
+             "retail_price": request.data.get("retail_price"),
+             "remark": request.data.get("remark"),
+         }
+
+         # 使用 create() 方法创建新的商品对象
+         new_goods = Goods.objects.create(**request_data)
+
+         # 对创建的对象进行序列化，并作为响应返回
+         serializer = GoodsSerializer(instance=new_goods)
+         return Response(serializer.data)
+
+
+ # 面向对象编程
+ class FilterGoodsCategoryAPI(APIView):
+     # request 表示当前的请求对象
+     # self 表示当前实例对象
+
+     def get(self, request, format=None):
+         print(request.method)
+         return Response('ok')
+
+     def post(self, request, format=None):
+         print(request.method)
+         return Response('ok')
+
+     def put(self, request, format=None):
+         print(request.method)
+         return Response('ok')
+
+```
+
+对应的要修改url，则定位到工程目录下同名字文件夹内的urls.py，粘贴以下内容
+
+```python
+from django.contrib import admin
+from django.urls import path
+from MyFirstApp.views import *
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('filtergoodscategoryapi/', FilterGoodsCategoryAPI.as_view()),
+    path('getgoods/', GetGoods.as_view()),
+]
+
+```
+
+然后即可启动服务，在浏览器端查看了。
