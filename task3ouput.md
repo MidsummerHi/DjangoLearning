@@ -177,6 +177,8 @@ from MyFirstApp.models import *
 
 其实也挺好理解或者说记忆**：gt=greater than；lt=less than**。
 
+
+
 - ##### 排除符合条件的对象
 
 ```python
