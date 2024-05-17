@@ -173,9 +173,9 @@ from MyFirstApp.models import *
 <QuerySet [{'number': '92970731', 'name': 'watch', 'retail_price': 61.48}, {'number': '98009800', 'name': 'draw', 'retail_price': 28.69}, {'number': '71001937', 'name': 'face', 'retail_price': 131.08}, {'number': '94406627', 'name': 'set', 'retail_price': 142.04}, {'number': '10933893', 'name': 'black', 'retail_price': 46.82}, {'number': '54214682', 'name': 'pattern', 'retail_price': 116.22}, {'number': '42296386', 'name': 'career', 'retail_price': 66.28}, {'number': '32274554', 'name': 'generation', 'retail_price': 96.06}, {'number': '78198821', 'name': 'media', 'retail_price': 69.3}, {'number': '30297357', 'name': 'free', 'retail_price': 99.63}, {'number': '21590818', 'name': 'its', 'retail_price': 21.95}, {'number': '50250486', 'name': 'understand', 'retail_price': 13.22}, {'number': '88689265', 'name': 'more', 'retail_price': 74.43}, {'number': '36701254', 'name': 'knowledge', 'retail_price': 146.7}, {'number': '84668110', 'name': 'eight', 'retail_price': 19.69}, {'number': '41137369', 'name': 'ground', 'retail_price': 139.72}, {'number': '28512721', 'name': 'eat', 'retail_price': 106.08}, {'number': '80959557', 'name': 'floor', 'retail_price': 131.37}, {'number': '54024649', 'name': 'you', 'retail_price': 5.77}, {'number': '90370984', 'name': 'direction', 'retail_price': 100.99}, '...(remaining elements truncated)...']>
 ```
 
-在上述的筛选条件中，我们注意到【filter(number\__gt=1, retail_price__lt=150)】，这里读者可能不太明白是什么含义。这个过滤器要求字段$\text{number}\ge1$，字段 $\text{retail\_price}\le1$
+在上述的筛选条件中，我们注意到 `filter(number__gt=1, retail_price__lt=150)`，这里读者可能不太明白是什么含义。这个过滤器要求字段 `number > 1`，字段 `retail_price < 150`。
 
-其实也挺好理解或者说记忆**：gt=greater than；lt=less than**。
+其实也挺好理解或者说记忆**：`gt` = greater than；`lt` = less than**。
 
 - ##### 排除符合条件的对象
 
